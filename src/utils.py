@@ -25,6 +25,12 @@ class DotEnvSerializer(Serializer):
             if line.startswith("#"): continue
             if "=" in line:
                 key, val = line.split("=", 1)
+                
+                # 주석 제거
+                splited = val.split('#', 1)
+                val, comment = splited if len(splited) > 1 else (splited[0], None)
+                val = val.strip()
+                
                 result[key] = val
         return result
 
