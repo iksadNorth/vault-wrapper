@@ -12,7 +12,7 @@ class Serializer(ABC):
 
 class DotEnvSerializer(Serializer):
     def serialize(self, table: dict, comment: str = '') -> Iterator[str]:
-        if comment:
+        if comment and table:
             yield f'\n# {comment}'
         for key, val in table.items():
             yield f'{key}={val}'
