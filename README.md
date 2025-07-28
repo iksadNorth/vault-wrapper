@@ -101,3 +101,10 @@ Jinja2 템플릿 엔진을 사용하여 `.env.template` 파일을 파싱하고 V
     -   `load_common(self, key)`: `common` 단계의 환경 변수 `key`의 값을 로드합니다.
 -   `get_parser(self, phase: str, hierarchy: List[str])`: Jinja2 템플릿 렌더링에 필요한 컨텍스트(`Parser` 인스턴스)를 생성합니다. 이때 `common` 환경 변수와 지정된 `hierarchy`의 환경 변수들이 모두 로드됩니다.
 -   `get_default_loader(self, key: str)`: `.env.template`에 새로운 환경 변수를 추가할 때 사용되는 기본 Jinja2 템플릿 로더 문자열을 생성합니다. 
+
+## 프로젝트 빌드
+```
+uv pip install pyinstaller 
+uv run pyinstaller main.py --name vault-wrapper
+./dist/vault-wrapper/vault-wrapper {command}
+```
