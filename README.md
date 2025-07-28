@@ -105,6 +105,6 @@ Jinja2 템플릿 엔진을 사용하여 `.env.template` 파일을 파싱하고 V
 ## 프로젝트 빌드
 ```
 uv pip install pyinstaller 
-uv run pyinstaller main.py --name vault-wrapper
+uv run pyinstaller main.py --name vault-wrapper --onefile
 ./dist/vault-wrapper/vault-wrapper {command}
 ```
