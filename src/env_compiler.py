@@ -91,6 +91,26 @@ class EnvCompiler:
         # 파일 내용 쓰기
         with open(file_path, "w") as f:
             f.write(rendered)
+
+    def upload(self, target_env: str, root_dir: str = '.'):
+        # 파라미터 전처리
+        root_path = Path(root_dir)
+        file_path = root_path / target_env
+        
+        # env 파일 해석 및 저장.
+        with open(file_path, "r") as f:
+            target_content = f.read()
+        self.vault.append_env('artifact', {target_env: target_content})
+
+    def download(self, target_env: str, root_dir: str = '.'):
+        # 파라미터 전처리
+        root_path = Path(root_dir)
+        table = self.vault.get_env('artifact')
+        
+        # env 파일 해석 및 저장.
+        if target_env in table:
+            with open(root_path / target_env, "w") as f:
+                f.write(table[target_env])
     
     def get_hierarchy(self, phase: str, graph: dict):
         yield phase

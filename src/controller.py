@@ -7,7 +7,7 @@ from src.env_compiler import EnvCompiler
 class Controller:
     def __init__(self):
         parser = ArgumentParser(description="Env Management CLI")
-        parser.add_argument("command", choices=["commit", "push", "pull", "build"])
+        parser.add_argument("command", choices=["commit", "push", "pull", "build", "upload", "download"])
         parser.add_argument("--pjt", help="Project Name", required=True)
         
         parser.add_argument("--phase", help="Target phase")
@@ -21,14 +21,22 @@ class Controller:
 
         vault = VaultEngine(args.pjt, Config.VAULT_URL, args.vault_token)        
         compiler = EnvCompiler(vault=vault, serializer=DotEnvSerializer())
-        args.phase = args.phase or Config.MAPPER_TO_PHASE[args.target]
 
         if args.command == "commit":
+            args.phase = args.phase or Config.MAPPER_TO_PHASE[args.target]
             compiler.commit(args.phase, args.target, args.root)
             compiler.render(args.phase, args.template, args.root)
         elif args.command == "push":
+            args.phase = args.phase or Config.MAPPER_TO_PHASE[args.target]
             compiler.commit(args.phase, args.target, args.root)
         elif args.command == "pull":
+            args.phase = args.phase or Config.MAPPER_TO_PHASE[args.target]
             compiler.pull(args.phase, args.target, args.template, args.root)
         elif args.command == "build":
+            args.phase = args.phase or Config.MAPPER_TO_PHASE[args.target]
             compiler.build(args.phase, args.target, args.template, args.root)
+        
+        elif args.command == "upload":
+            compiler.upload(args.target, args.root)
+        elif args.command == "download":
+            compiler.download(args.target, args.root)

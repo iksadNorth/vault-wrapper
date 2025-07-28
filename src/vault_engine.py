@@ -18,6 +18,15 @@ class VaultEngine:
             secret=data
         )
 
+    def append_env(self, phase: str, data: Dict[str, str]):
+        # 빈 value의 환경변수는 업데이트 하지 않는다.
+        data = { k:v for k,v in data.items() if v }
+        
+        self.client.secrets.kv.v2.patch(
+            path=f"{self.pjt_name}/{phase}",
+            secret=data
+        )
+
     def _read(self, path: str) -> Dict:
         try:
             return self.client.secrets.kv.v2.read_secret_version(path=path)['data']['data']
